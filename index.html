@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project</title>
+
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">  
+</head>
+
+<body>
+    <div class="page">
+
+        <div id="mainPage" class="container">
+            <div id="left">
+                <div id="SignUp" class="selector optionSelected">Sign Up</div>
+                <div id="Login" class="selector">Login</div>
+                
+                
+            </div>
+            <div id="right">
+                <div id="theForm" class="patientForm">
+                    <!-- <label class = "label2" for="email">Email</label> -->
+                    <input class = "input2" type="email" id="email" placeholder="enter email:">
+                    <!-- <label class = "label2" for="password">Password</label> -->
+                    <input class = "input2" type="password" id="password" placeholder="enter password:">
+                    <input class = "input2 submitClass" type="submit" id="submit" value="Submit">
+                </div>
+
+                <div id="text2" class="hidden1">
+                    Wrong email/password combination entered
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="anime.min.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,359 @@
+@import url('https://rsms.me/inter/inter-ui.css');
+@font-face {
+    font-family: "Sora";
+    src: url("https://fonts.googleapis.com/css?family=Sora");
+}
+
+::selection {
+    background: #2D2F36;
+}
+
+::-webkit-selection {
+    background: #2D2F36;
+}
+
+::-moz-selection {
+    background: #2D2F36;
+}
+
+body {
+    background: white;
+    font-family: Sora, 'Inter UI', sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.page,body {
+    background: #e2e2e5;
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 40px);
+    position: absolute;
+    place-content: center;
+    width: calc(100% - 40px);
+}
+
+@media (max-width: 767px) {
+    .page {
+        height: auto;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+    }
+}
+
+
+.container {
+    display: flex;
+    height: 320px;
+    margin: 0 auto;
+    width: 640px;
+}
+
+.hidden {
+    opacity: 0%;
+    z-index: -10;
+}
+
+#left {
+    background: white;
+    height: calc(100% - 37px);
+    top: 20px;
+    position: relative;
+    width: 50%;
+}
+
+@media (max-width: 767px) {
+    .container {
+        flex-direction: column;
+        height: 630px;
+        width: 320px;
+    }
+}
+
+
+
+@media (max-width: 767px) {
+    #left {
+        height: 100%;
+        left: 20px;
+        width: calc(100% - 40px);
+        max-height: 280.32px;
+    }
+}
+
+.selector {
+    font-size: 30px;
+    font-weight: 900;
+    padding: 45px 40px 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 7vh;
+
+}
+
+.selector:hover {
+    /* background-color:#e2e2e6; */
+    opacity: 50%;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.eula {
+    color: #999;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 40px;
+}
+
+#right {
+    background: #474A59;
+    box-shadow: 0px 0px 40px 16px rgba(0, 0, 0, 0.22);
+    color: #F1F1F2;
+    position: relative;
+    width: 50%;
+    height: 100%;
+}
+
+@media (max-width: 767px) {
+    #right {
+        flex-shrink: 0;
+        height: 80%;
+        width: 100%;
+        max-height: 270px;
+    }
+}
+
+svg {
+    position: absolute;
+    width: 320px;
+}
+
+path {
+    fill: none;
+    stroke: url(#linearGradient);
+    ;
+    stroke-width: 4;
+    stroke-dasharray: 240 1386;
+}
+
+.form {
+    margin: 40px;
+    position: absolute;
+}
+
+.label1 {
+    color: #c2c2c5;
+    display: block;
+    font-size: 14px;
+    height: 16px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+.label2 {
+    font-size: 10px;
+}
+
+input, select, option {
+    font-family: Source Code Pro;
+}
+
+.input1 {
+    background: transparent;
+    border: 0;
+    color: #f2f2f2;
+    font-size: 20px;
+    height: 30px;
+    line-height: 30px;
+    outline: none !important;
+    width: 100%;
+    
+
+}
+
+
+.input::-moz-focus-inner {
+    border: 0;
+    
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+.input2 {
+    border: 0;
+    border-radius: 3px;
+    width: 50%;
+    padding: 5px 10px;
+    margin: 5px;
+    color: white;
+    background-color: #1abc9c;
+    font-size: 12px;
+
+}
+
+.input3 {
+    width: 100%;
+}
+
+.submitClass {
+    cursor: pointer;
+}
+
+.input2::placeholder {
+
+    color: white;
+    opacity: 50%;
+
+}
+
+#submit1,#submit2 {
+    color: #707075;
+    margin-top: 40px;
+    transition: color 300ms;
+}
+
+#submit:focus {
+    color: #f2f2f2;
+}
+
+#submit:active {
+    color: #d0d0d2;
+}
+
+#SignUp {
+    border-bottom: 2px dotted #474A59;
+}
+
+.optionSelected {
+    background-color: #1abc9c;
+    opacity: 70%;
+    transition: all 0.5s;
+}
+
+.big {
+    font-size: 1.2em;
+}
+
+.small {
+    font-size: .7em;
+}
+
+/* .square {
+    width: .7em;
+    height: .7em;
+    margin: .5em;
+    display: inline-block;
+} */
+
+/* Custom dropdown */
+.custom-dropdown {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    /* display: inline-block; */
+    vertical-align: middle;
+    margin: 10px;
+    /* demo only */
+    font-family: Source Code Pro;
+}
+
+.custom-dropdown select {
+    background-color: #1abc9c;
+    color: #fff;
+    font-size: inherit;
+    padding: .5em;
+    padding-right: 2.5em;
+    border: 0;
+    margin: 0;
+    border-radius: 3px;
+    text-indent: 0.01px;
+    text-overflow: '';
+    -webkit-appearance: button;
+    /* hide default arrow in chrome OSX */
+}
+
+
+.custom-dropdown::before {
+    /*  Custom dropdown arrow cover */
+    width: 2em;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 0 3px 3px 0;
+}
+
+.custom-dropdown select[disabled] {
+    color: rgba(0, 0, 0, .3);
+}
+
+.custom-dropdown select[disabled]::after {
+    color: rgba(0, 0, 0, .1);
+}
+
+.custom-dropdown::before {
+    background-color: rgba(0, 0, 0, .15);
+}
+
+.custom-dropdown::after {
+    color: rgba(0, 0, 0, .4);
+}
+
+.text {
+    height: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    font-size: 12px;
+    font-family: Sora, 'Times New Roman', Times, serif;
+}
+
+#text2 {
+    font-family: Source Code Pro;
+    font-size: 12px;
+
+    height: 20px;
+    width: 100%;
+    margin-top: 150px;
+
+    display: flex;
+    justify-content: center;
+    position: absolute;
+
+    color: red;
+
+    transition: all 0.5s, opacity 1s;
+
+}
+
+#text2.hidden1 {
+    margin-top: 200px;
+    opacity: 0%;
+    transition: all 0.5s;
+}
+
+#left, #right {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.patientForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* position: relative; */
+}
+
+.navbar {
+    position: absolute;
+
+}

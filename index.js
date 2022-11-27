@@ -2,12 +2,144 @@
 
 var current = null;
 
-const email = document.getElementById('email');
+// Global OM2M data
+cse_ip = "127.0.0.1"; // YOUR IP from ipconfig/ifconfig
+cse_port = "8080";
+server = "http://" + cse_ip + ":" + cse_port + "/~/in-cse/in-name/";
+return_val = -1
+users = []
+
+delete_data = function(path){
+    local_url = server + path
+
+    fetch(local_url,{
+        method : "DELETE",
+        headers : {
+            'X-M2M-Origin': 'admin:admin',
+            'Content-type': 'application/json;ty=3'
+        },
+    })
+    .then(() => console.log("Removed or tried to remove something from database"))
+
+}
+
+make_cin = function(path, value) {
+
+    local_url = server + path
+    body = {
+    "m2m:cin": {
+        "con": value.toString(),
+        "lbl": "",
+        "cnf": "text"
+    }
+    }
+    console.log(JSON.stringify(body))
+    fetch(local_url,{
+        method : "POST",
+        headers : {
+            'X-M2M-Origin': 'admin:admin',
+            'Content-type': 'application/json;ty=4'
+        },
+        body : JSON.stringify(body)
+    })
+    .then(response => response.json())
+    .then(text => console.log(text + " hi"))
+
+}
+
+make_cnt = async function(path, cnt_name) {
+    local_url = server + path
+    console.log(local_url);
+    body = {
+    "m2m:cnt": {
+        "rn": cnt_name,
+        "mni": "120",
+        "lbl": ""
+    }
+    }
+    console.log(JSON.stringify(body))
+    await fetch(local_url,{
+        method : "POST",
+        headers : {
+            'X-M2M-Origin': 'admin:admin',
+            'Content-type': 'application/json;ty=3'
+        },
+        body : JSON.stringify(body)
+    })
+    .then(response => response.json())
+    .then(text => console.log(text))
+}
+
+fetch_the_data = function(path) {
+    local_url = server + path
+    fetch(local_url,{
+        headers : {
+            'X-M2M-Origin': 'admin:admin',
+            'Content-type': 'application/json' 
+        }
+    })
+    .then(response => response.json())
+}
+
+do_login = async function(path) {
+    local_url = server + path
+    console.log(local_url)
+    await fetch(local_url,{
+        headers : {
+            'X-M2M-Origin': 'admin:admin',
+            'Content-type': 'application/json' 
+        }
+    })
+    .then(response => {
+        return_val = 0;
+        var ret =  response.json();
+        console.log(ret)
+        return ret
+    })
+    .then(data => {    
+        if ((data["m2m:cin"]["con"]) != password.value){
+            console.log("Doctor's password is incorrect")
+            $('#text2').removeClass('hidden1');
+            return_val = -1;
+        }
+    })
+    .catch(() => {
+        console.log("Doctor doesn't exist")
+        $('#text2').removeClass('hidden1');
+        return_val = -1
+    })
+}
+
+fill_the_users_list = async function(path) {
+    local_url = server + path
+    console.log(local_url)
+    await fetch(local_url,{
+        headers : {
+            'X-M2M-Origin': 'admin:admin',
+            'Content-type': 'application/json' 
+        }
+    })
+    .then(response => {
+        var ret =  response.json();
+        return ret
+    })
+    .then(data => {
+        for(i=0; i<data["m2m:cnt"]["m2m:cin"].length;i++){
+            users.push(data["m2m:cnt"]["m2m:cin"][i]["con"])
+        }
+    })
+    .catch(() => {
+        console.log("Userlist error")
+    })
+}
+
+
+const username = document.getElementById('username');
 const password = document.getElementById('password');
 const submitButton = document.querySelector('submit');
 
 function addAnimeJSTransitions() {
-    email.addEventListener('focus', function (e) {
+    username.addEventListener('focus', function (e) {
         if (current) current.pause();
         current = anime({
             targets: 'path',
@@ -79,25 +211,28 @@ bsignup.addEventListener('click', function() {
     isLogin = !isLogin;
 });
 
-submit.addEventListener('click', function () {
-    console.log("clicked");
+submit.addEventListener('click', async function () {
     if (isLogin) {
+        console.log("clicked login");
         dashboard();
     } else {
-       // just add new username and password to the OM2M database
+        console.log("clicked signup");
+        await make_cnt("doc_login", username.value)
+        await make_cin("doc_login/" + username.value, password.value)
     }
     
 });
 
-function dashboard() {
-    // get request from onem2m for email and password
+async function dashboard() {
+    // get request from onem2m for username and password
     // if they match then do:
 
-    if (email.value != "admin" || password.value != "admin") {
-        console.log("not admin")
-        $('#text2').removeClass('hidden1');
+    await do_login("doc_login/" + username.value + "/la")
+
+    if (return_val == -1) {
         return;
     }
+
 
     // to do 
 
@@ -122,29 +257,26 @@ function dashboard() {
 
     `)
 
-    $('#right').html(`
-        <div class = "text" >
-            Choose an existing patient:
-        </div>
+    await fill_the_users_list("Usernames/Names/?rcn=4")
+    right_html = '<div class = "text" >\
+        Choose an existing patient:\
+        </div>\
+        <span class = "custom-dropdown">\
+        <select>'
 
-        <span class = "custom-dropdown">
-        <select>
-        <option> Shreyu </option> 
-        <option> Sreenivas </option> 
-        <option> Vrinda </option> 
-        <option> Keshav </option> 
-        </select> 
-        </span>
+    for(i=0;i<users.length;i++){
+        right_html += '<option>' + users[i] + '</option>'
+    }
 
-        <div class = "text" >
-        <div id = "collectData" class = "patientForm" >
-        <input class = "input2 input3 submitClass" type = "submit" id = "collectData" value = "Collect Data/ View Analytics" >
+    right_html += '</select>\
+    </span>\
+    <div class = "text" >\
+    <div id = "collectData" class = "patientForm" >\
+    <input class = "input2 input3 submitClass" type = "submit" id = "collectData" value = "Collect Data/ View Analytics" >\
+    </div> \
+    </div>'
 
-        </div> 
-        </div>
-        
-
-    `)
+    $('#right').html(right_html)
 
     // REPLACE SHERLOCK HOLMES WITH THE NAMES IN GET REQUEST
 
